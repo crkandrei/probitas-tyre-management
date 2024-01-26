@@ -1,0 +1,56 @@
+version: '3'
+services:
+    app:
+        build:
+            context: .
+            dockerfile: Dockerfile
+        image: tyre-crm-backend-app
+        container_name: tyre-crm-backend-app
+        restart: unless-stopped
+        tty: true
+        environment:
+            SERVICE_NAME: app
+            SERVICE_TAGS: dev
+        working_dir: /var/www
+        volumes:
+            - ./:/var/www
+        networks:
+            - app-network
+
+    nginx:
+        image: nginx:alpine
+        container_name: tyre-crm-backend-nginx
+        restart: unless-stopped
+        tty: true
+        ports:
+            - "8080:80"
+        volumes:
+            - ./:/var/www
+            - ./nginx/default.conf:/etc/nginx/conf.d/default.conf
+        networks:
+            - app-network
+
+    db:
+        image: mysql:5.7
+        container_name: tyre-crm-backend-db
+        restart: unless-stopped
+        tty: true
+        ports:
+            - "3306:3306"
+        environment:
+            MYSQL_DATABASE: probitas
+            MYSQL_USER: user
+            MYSQL_PASSWORD: vaslui1308
+            MYSQL_ROOT_PASSWORD: rootpassword
+        volumes:
+            - mysqldata:/var/lib/mysql
+        networks:
+            - app-network
+
+networks:
+    app-network:
+        driver: bridge
+
+volumes:
+    mysqldata:
+        driver: local
