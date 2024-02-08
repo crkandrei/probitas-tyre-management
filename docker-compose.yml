@@ -8,6 +8,8 @@ services:
         container_name: tyre-crm-backend-app
         restart: unless-stopped
         tty: true
+        ports:
+            - "5173:5173"
         environment:
             SERVICE_NAME: app
             SERVICE_TAGS: dev
