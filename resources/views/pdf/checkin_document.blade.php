@@ -2,7 +2,8 @@
 <html lang="en">
 <head>
     <meta charset="UTF-8">
-    <title>Proces Verbal</title>
+    <title>Check-In Document</title>
+
     <style>
         body {
             font-family: 'Arial', sans-serif;
@@ -64,14 +65,13 @@
     </div>
     <div class="transaction-info">
         <p><strong>Referinta Tranzactie:</strong> 2004</p>
-        <!-- Add more transaction details here -->
     </div>
 </div>
 
-<h1 class="title">Proces verbal de Predare-Primire in vederea depozitarii anvelope extra-sezon</h1>
+<h1 class="title">Proces verbal de Primire-Predare in vederea depozitarii anvelope extra-sezon</h1>
 
 <div class="details">
-    <p>Subsemnatul <strong>{{$tyre->client->name}}</strong>, posesor al autovehiculului cu numarul de inmatriculare {{$tyre->car_number}}, am primit de la <strong>{{auth()->user()->name}}</strong> reprezentant al SC.PROBITAS.SRL :</p>
+    <p>Subsemnatul <strong>{{$tyre->client->name}}</strong>, posesor al autovehiculului cu numarul de inmatriculare {{$tyre->car_number}}, am predat la <strong>{{auth()->user()->name}}</strong> reprezentant al SC.PROBITAS.SRL :</p>
     <p>Bucati Anvelope : {{$tyre->quantity}}</p>
     <p>Marca : {{$tyre->model}}</p>
     <p>Dimensiune : {{$tyre->size}} </p>
@@ -89,12 +89,12 @@
             {{ now()->format('d-m-Y H:i') }}
         </td>
         <td class="text-center">
-            Am primit
+            Am predat
             <br>..........<br>
             {{ $tyre->client->name }}
         </td>
         <td class="text-center">
-            Am predat
+            Am primit
             <br>..........<br>
             {{ auth()->user()->name }}
         </td>

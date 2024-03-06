@@ -19,8 +19,7 @@
                             <!-- Define table headers -->
                             <th class="px-6 py-3 text-left text-xs font-medium text-gray-500 uppercase tracking-wider">Nume Client</th>
                             <th class="px-6 py-3 text-left text-xs font-medium text-gray-500 uppercase tracking-wider">Telefon</th>
-                            <th class="px-6 py-3 text-left text-xs font-medium text-gray-500 uppercase tracking-wider">Numar Masina</th>
-                            <!-- Add other headers like phone, email, etc. -->
+                            <th class="px-6 py-3 text-left text-xs font-medium text-gray-500 uppercase tracking-wider">Masini</th>
                             <th class="px-6 py-3 text-left text-xs font-medium text-gray-500 uppercase tracking-wider">Actions</th>
                         </tr>
                         </thead>
@@ -29,6 +28,7 @@
                             <!-- Define data cells -->
                             <td class="px-6 py-4 whitespace-nowrap">{{ client.name }}</td>
                             <td class="px-6 py-4 whitespace-nowrap">{{ client.telephone }}</td>
+                            <td class="px-6 py-4 whitespace-nowrap">{{ client.tyres.map(tyre => tyre.car_number).join(', ') }}</td>
                             <td class="px-6 py-4 whitespace-nowrap text-right text-sm font-medium">
                                 <button
                                     @click="openEditClientModal(client)"
@@ -63,11 +63,11 @@
                             <h3 class="text-lg leading-6 font-medium text-gray-900">Editeaza informatii clienti </h3>
                             <div class="mt-2">
                                 <div class="mb-4">
-                                    <label for="editName" class="block text-sm font-medium text-gray-700">Name</label>
+                                    <label for="editName" class="block text-sm font-medium text-gray-700">Nume</label>
                                     <input type="text" id="editName" v-model="editClientForm.name" class="mt-1 block w-full border-gray-300 rounded-md shadow-sm">
                                 </div>
                                 <div class="mb-4">
-                                    <label for="editTelephone" class="block text-sm font-medium text-gray-700">Telephone</label>
+                                    <label for="editTelephone" class="block text-sm font-medium text-gray-700">Telefon</label>
                                     <input type="text" id="editTelephone" v-model="editClientForm.telephone" class="mt-1 block w-full border-gray-300 rounded-md shadow-sm">
                                 </div>
                             </div>

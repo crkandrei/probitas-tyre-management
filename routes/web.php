@@ -41,6 +41,10 @@ Route::get('/tyre/generate-checkout-document/{tyre}', [TyreController::class, 'g
     ->middleware(['auth', 'verified'])
     ->name('tyre.generate-checkout-document');
 
+Route::get('/tyre/generate-checkin-document/{tyre}', [TyreController::class, 'generateCheckinDocument'])
+    ->middleware(['auth', 'verified'])
+    ->name('tyre.generate-checkin-document');
+
 Route::get('/clients/{client}/history', [ClientController::class, 'history'])
     ->middleware(['auth', 'verified'])
     ->name('clients.history');
@@ -83,6 +87,10 @@ Route::put('/tyre-storage-link/{tyre}', [StorageController::class, 'updateStorag
 Route::post('/tyres/checkout/{tyre}', [TyreController::class, 'checkout'])
     ->middleware(['auth', 'verified'])
     ->name('tyres.checkout');
+
+Route::put('/tyres/{tyre}', [TyreController::class, 'update'])
+    ->middleware(['auth', 'verified'])
+    ->name('tyres.update');
 
 // Check-in Route
 Route::get('/checkin', function () {

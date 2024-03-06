@@ -3,6 +3,7 @@
 namespace App\Http\Controllers;
 
 use App\Http\Requests\TyreCheckInRequest;
+use App\Http\Requests\TyreUpdateRequest;
 use App\Models\Tyre;
 use App\Repositories\TyreRepository;
 use App\Services\ClientTyreService;
@@ -52,9 +53,26 @@ class TyreController extends Controller
 
     public function generateCheckoutDocument(Request $request, Tyre $tyre): \Illuminate\Http\Response
     {
-
-        $pdf = PDF::loadView('pdf.checkout_document', $tyre->toArray());
+        $pdf = PDF::loadView('pdf.checkout_document', ['tyre' => $tyre]);
         return $pdf->download('checkout_document.pdf');
+    }
+
+    public function generateCheckinDocument(Request $request, Tyre $tyre): \Illuminate\Http\Response
+    {
+        $pdf = PDF::loadView('pdf.checkin_document', ['tyre' => $tyre]);
+        return $pdf->download('checkin_document.pdf');
+    }
+
+    public function update(TyreUpdateRequest $request, Tyre $tyre): JsonResponse
+    {
+        $validated = $request->validated();
+        try {
+            $tyre->update($validated);
+            return response()->json(['message' => 'Date modificare cu succes']);
+        } catch (\Exception $e) {
+            Log::error('Error in update: ' . $e->getMessage(), ['exception' => $e]);
+            return response()->json(['message' => 'Eroare modificare date'], 500);
+        }
     }
 }
 
