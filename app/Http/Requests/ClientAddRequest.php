@@ -13,4 +13,15 @@ class ClientAddRequest extends FormRequest
             'telephone' => 'nullable|string|max:255'
         ];
     }
+
+    public function messages()
+    {
+        return [
+            'name.required' => 'Numele este obligatoriu.',
+            'name.string' => 'Numele trebuie să fie un șir de caractere.',
+            'name.max' => 'Numele nu poate fi mai lung de 255 de caractere.',
+            'telephone.string' => 'Telefonul trebuie să fie un șir de caractere.',
+            'telephone.max' => 'Telefonul nu poate fi mai lung de 255 de caractere.',
+        ];
+    }
 }

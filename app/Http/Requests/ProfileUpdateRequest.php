@@ -20,4 +20,19 @@ class ProfileUpdateRequest extends FormRequest
             'email' => ['required', 'string', 'lowercase', 'email', 'max:255', Rule::unique(User::class)->ignore($this->user()->id)],
         ];
     }
+
+    public function messages()
+    {
+        return [
+            'name.required' => 'Numele este obligatoriu.',
+            'name.string' => 'Numele trebuie să fie un șir de caractere.',
+            'name.max' => 'Numele nu poate fi mai lung de 255 de caractere.',
+            'email.required' => 'Adresa de email este obligatorie.',
+            'email.string' => 'Adresa de email trebuie să fie un șir de caractere.',
+            'email.lowercase' => 'Adresa de email trebuie să fie scrisă cu litere mici.',
+            'email.email' => 'Adresa de email trebuie să fie validă.',
+            'email.max' => 'Adresa de email nu poate fi mai lungă de 255 de caractere.',
+            'email.unique' => 'Adresa de email este deja folosită.',
+        ];
+    }
 }

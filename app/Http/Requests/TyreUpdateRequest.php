@@ -32,4 +32,19 @@ class TyreUpdateRequest extends FormRequest
         ];
     }
 
+    public function messages()
+    {
+        return [
+            'model.required' => 'Modelul este obligatoriu.',
+            'model.string' => 'Modelul trebuie să fie un șir de caractere.',
+            'size.required' => 'Dimensiunea este obligatorie.',
+            'size.string' => 'Dimensiunea trebuie să fie un șir de caractere.',
+            'observations.string' => 'Observațiile trebuie să fie un șir de caractere.',
+            'quantity.required' => 'Cantitatea este obligatorie.',
+            'quantity.int' => 'Cantitatea trebuie să fie un număr întreg.',
+            'hasRim.required' => 'Prezența jantei este obligatorie.',
+            'hasRim.boolean' => 'Prezența jantei trebuie să fie adevărată sau falsă.',
+        ];
+    }
+
 }

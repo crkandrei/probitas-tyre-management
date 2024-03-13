@@ -28,4 +28,14 @@ class UpdateTyreStorageRequest extends FormRequest
             'observations' => 'nullable|string'
         ];
     }
+
+    public function messages(){
+        return [
+            'row.required' => 'Rândul este obligatoriu.',
+            'row.int' => 'Rândul trebuie să fie un număr întreg.',
+            'column.int' => 'Coloana trebuie să fie un număr întreg.',
+            'shelf.int' => 'Raftul trebuie să fie un număr întreg.',
+            'observations.string' => 'Observațiile trebuie să fie un șir de caractere.'
+        ];
+    }
 }

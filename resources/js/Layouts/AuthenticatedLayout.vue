@@ -21,10 +21,10 @@ const showingNavigationDropdown = ref(false);
 
             <!-- Navigation Links -->
             <nav>
-                <ResponsiveNavLink :href="route('dashboard')" :active="route().current('dashboard')" class="text-white rounded-lg">Dashboard</ResponsiveNavLink>
-                <ResponsiveNavLink :href="route('checkin')" :active="route().current('checkin')" class="text-white mt-3 rounded-lg">Check In</ResponsiveNavLink>
-                <ResponsiveNavLink :href="route('tyre-list')" :active="route().current('tyre-list')" class="text-white mt-3 rounded-lg">Lista Anvelope</ResponsiveNavLink>
-                <ResponsiveNavLink :href="route('client-list')" :active="route().current('client-list')" class="text-white mt-3 rounded-lg">Lista Clienti</ResponsiveNavLink>
+                <ResponsiveNavLink :href="route('dashboard')" :active="route().current('dashboard')" class="rounded-lg">Dashboard</ResponsiveNavLink>
+                <ResponsiveNavLink :href="route('checkin')" :active="route().current('checkin')" class="mt-3 rounded-lg">Check In</ResponsiveNavLink>
+                <ResponsiveNavLink :href="route('tyre-list')" :active="route().current('tyre-list')" class="mt-3 rounded-lg">Lista Anvelope</ResponsiveNavLink>
+                <ResponsiveNavLink :href="route('client-list')" :active="route().current('client-list')" class="mt-3 rounded-lg">Lista Clienti</ResponsiveNavLink>
                 <!-- Add more links as needed -->
             </nav>
         </div>
