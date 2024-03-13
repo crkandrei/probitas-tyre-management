@@ -10,7 +10,7 @@ class ClientAddRequest extends FormRequest
     {
         return [
             'name' => 'required|string|max:255',
-            'telephone' => 'required|string|max:255'
+            'telephone' => 'nullable|string|max:255'
         ];
     }
 }

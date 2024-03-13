@@ -38,7 +38,7 @@ onMounted(async () => {
                             </div>
                             <div class="ml-5 w-0 flex-1">
                                 <dl>
-                                    <dt class="text-sm font-medium text-gray-500 truncate">Total Clienti :</dt>
+                                    <dt class="text-sm font-medium text-gray-500 truncate mb-6">Total Clienti :</dt>
                                     <dd>
                                         <div class="text-lg font-medium text-gray-900">{{ totalClients }}</div>
                                     </dd>
@@ -55,9 +55,29 @@ onMounted(async () => {
                             </div>
                             <div class="ml-5 w-0 flex-1">
                                 <dl>
-                                    <dt class="text-sm font-medium text-gray-500 truncate">Total Anvelope :</dt>
+                                    <dt class="text-sm font-medium text-gray-500 truncate mb-5">Total Anvelope :</dt>
                                     <dd>
                                         <div class="text-lg font-medium text-gray-900">{{ totalTyres }}</div>
+                                    </dd>
+                                </dl>
+                            </div>
+                        </div>
+                    </div>
+                </div>
+
+                <div class="bg-white overflow-hidden shadow rounded-lg">
+                    <div class="p-5">
+                        <div class="flex items-center">
+                            <div class="flex-shrink-0">
+                                <!-- Icon or image can go here -->
+                            </div>
+                            <div class="ml-5 w-0 flex-1">
+                                <dl>
+                                    <dt class="text-sm font-medium text-gray-500 truncate mb-5">Buton Generare Raport Excel :</dt>
+                                    <dd>
+                                        <a href="/excel/export" class="w-full inline-flex justify-center rounded-md border border-transparent shadow-sm px-4 py-2 bg-green-600 text-base font-medium text-white hover:bg-green-700 focus:outline-none sm:ml-3 sm:w-auto sm:text-sm">
+                                            Generare Raport Excel
+                                        </a>
                                     </dd>
                                 </dl>
                             </div>

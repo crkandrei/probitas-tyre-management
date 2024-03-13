@@ -35,7 +35,7 @@ class ClientController extends Controller
         ]);
     }
 
-    public function history(Client $client)
+    public function history(Client $client): JsonResponse
     {
         $history = $client->history()->with(['client', 'tyre'])->get();
 
@@ -50,7 +50,7 @@ class ClientController extends Controller
         return Response::json($sortedGrouped);
     }
 
-    public function add(ClientAddRequest $request)
+    public function add(ClientAddRequest $request): JsonResponse
     {
         $client = $this->clientRepository->add($request->all());
 
@@ -60,9 +60,24 @@ class ClientController extends Controller
         ]);
     }
 
-    public function list()
+    public function list(): JsonResponse
     {
         $clients = $this->clientRepository->listForCheckIn();
         return response()->json($clients);
+    }
+
+    public function destroy(Client $client): JsonResponse
+    {
+        try{
+            $client->delete();
+        } catch (\Exception $e) {
+            return response()->json([
+                'message' => 'Clientul nu poate fi sters !'
+            ], 400);
+        }
+
+        return response()->json([
+            'message' => 'Client sters cu succes!'
+        ]);
     }
 }

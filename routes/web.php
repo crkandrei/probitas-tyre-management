@@ -74,6 +74,10 @@ Route::put('/clients/{client}', [ClientController::class, 'update'])
     ->middleware(['auth', 'verified'])
     ->name('client.update');
 
+Route::delete('/clients/{client}', [ClientController::class, 'destroy'])
+    ->middleware(['auth', 'verified'])
+    ->name('client.destroy');
+
 // Tyre Storage
 Route::post('/tyre-storage-link', [StorageController::class, 'store'])
     ->middleware(['auth', 'verified'])
@@ -109,5 +113,9 @@ Route::middleware('auth')->group(function () {
     Route::patch('/profile', [ProfileController::class, 'update'])->name('profile.update');
     Route::delete('/profile', [ProfileController::class, 'destroy'])->name('profile.destroy');
 });
+
+Route::get('/excel/export', [TyreController::class, 'export'])
+    ->middleware(['auth', 'verified'])
+    ->name('excel.export');
 
 require __DIR__.'/auth.php';

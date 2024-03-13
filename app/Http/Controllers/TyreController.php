@@ -2,6 +2,7 @@
 
 namespace App\Http\Controllers;
 
+use App\Exports\TyreDataExport;
 use App\Http\Requests\TyreCheckInRequest;
 use App\Http\Requests\TyreUpdateRequest;
 use App\Models\Tyre;
@@ -10,7 +11,11 @@ use App\Services\ClientTyreService;
 use Barryvdh\DomPDF\Facade\Pdf;
 use Illuminate\Http\JsonResponse;
 use Illuminate\Http\Request;
+use Illuminate\Http\Response;
 use Illuminate\Support\Facades\Log;
+use Maatwebsite\Excel\Facades\Excel;
+use Symfony\Component\HttpFoundation\BinaryFileResponse;
+
 
 class TyreController extends Controller
 {
@@ -34,13 +39,13 @@ class TyreController extends Controller
         }
     }
 
-    public function index(Request $request)
+    public function index(Request $request): JsonResponse
     {
         $tyres = $this->tyreRepository->searchTyres($request->search);
         return response()->json($tyres);
     }
 
-    public function checkout(Request $request, Tyre $tyre)
+    public function checkout(Request $request, Tyre $tyre): JsonResponse
     {
         try {
             $this->tyreRepository->checkoutTyre($tyre);
@@ -51,13 +56,13 @@ class TyreController extends Controller
         }
     }
 
-    public function generateCheckoutDocument(Request $request, Tyre $tyre): \Illuminate\Http\Response
+    public function generateCheckoutDocument(Request $request, Tyre $tyre): Response
     {
         $pdf = PDF::loadView('pdf.checkout_document', ['tyre' => $tyre]);
         return $pdf->download('checkout_document.pdf');
     }
 
-    public function generateCheckinDocument(Request $request, Tyre $tyre): \Illuminate\Http\Response
+    public function generateCheckinDocument(Request $request, Tyre $tyre): Response
     {
         $pdf = PDF::loadView('pdf.checkin_document', ['tyre' => $tyre]);
         return $pdf->download('checkin_document.pdf');
@@ -73,6 +78,11 @@ class TyreController extends Controller
             Log::error('Error in update: ' . $e->getMessage(), ['exception' => $e]);
             return response()->json(['message' => 'Eroare modificare date'], 500);
         }
+    }
+
+    public function export(Request $request): BinaryFileResponse
+    {
+        return Excel::download(new TyreDataExport, 'Raport-depozit.xlsx');
     }
 }
 

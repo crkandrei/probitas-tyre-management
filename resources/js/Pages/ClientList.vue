@@ -36,6 +36,12 @@
                                 >
                                     Editare
                                 </button>
+                                <button
+                                    @click="openDeleteClientModal(client)"
+                                    class="text-white bg-red-500 hover:bg-red-600 focus:ring-4 focus:ring-red-300 font-medium rounded-lg text-sm px-5 py-2.5 mr-2 mb-2 dark:bg-red-600 dark:hover:bg-red-700 focus:outline-none dark:focus:ring-red-800"
+                                >
+                                    Stergere
+                                </button>
 
                                 <button
                                     @click="viewHistory(client)"
@@ -47,6 +53,29 @@
                         </tr>
                         </tbody>
                     </table>
+                    </div>
+                </div>
+            </div>
+        </div>
+
+        <div v-if="showDeleteClientModal" class="fixed inset-0 bg-gray-500 bg-opacity-75 transition-opacity">
+            <!-- Modal content -->
+            <div class="fixed inset-0 z-10 overflow-y-auto">
+                <!-- Modal inner content -->
+                <div class="flex items-end sm:items-center justify-center min-h-full p-4 text-center sm:p-0">
+                    <div class="relative bg-white rounded-lg text-left overflow-hidden shadow-xl transform transition-all sm:my-8 sm:max-w-lg sm:w-full">
+                        <div class="bg-white px-4 pt-5 pb-4 sm:p-6 sm:pb-4">
+                            <h3 class="text-lg leading-6 font-medium text-gray-900">Sterge client</h3>
+                            <p class="text-sm text-gray-500">Esti sigur ca vrei sa stergi clientul?</p>
+                        </div>
+                        <div class="bg-gray-50 px-4 py-3 sm:px-6 sm:flex sm:flex-row-reverse">
+                            <button @click="submitDeleteClientForm" :disabled="isLoadingDelete" class="w-full inline-flex justify-center rounded-md border border-transparent shadow-sm px-4 py-2 bg-red-600 text-base font-medium text-white hover:bg-red-700 focus:outline-none sm:ml-3 sm:w-auto sm:text-sm">
+                                Sterge
+                            </button>
+                            <button @click="showDeleteClientModal = false" class="mt-3 w-full inline-flex justify-center rounded-md border border-gray-300 shadow-sm px-4 py-2 bg-white text-base font-medium text-gray-700 hover:bg-gray-50 focus:outline-none sm:mt-0 sm:ml-3 sm:w-auto sm:text-sm">
+                                Anuleaza
+                            </button>
+                        </div>
                     </div>
                 </div>
             </div>
@@ -140,7 +169,13 @@ const editClientForm = reactive({
     telephone: '',
     car_number: '',
 });
+
+const deleteClientForm = reactive({
+    id: null,
+});
+
 const isLoadingEdit = ref(false);
+const isLoadingDelete = ref(false);
 
 const clients = ref({ data: [] });
 const search = ref('');
@@ -159,13 +194,32 @@ const fetchClients = async () => {
 };
 
 const showEditClientModal = ref(false);
+const showDeleteClientModal = ref(false);
 
+const openDeleteClientModal = (client) => {
+    deleteClientForm.id = client.id;
+    showDeleteClientModal.value = true;
+}
 const openEditClientModal = (client) => {
     editClientForm.id = client.id;
     editClientForm.name = client.name;
     editClientForm.telephone = client.telephone;
     editClientForm.car_number = client.car_number;
     showEditClientModal.value = true;
+};
+
+const submitDeleteClientForm = async () => {
+    isLoadingDelete.value = true;
+    try {
+        await axios.delete(`/clients/${deleteClientForm.id}`);
+        await fetchClients();
+        showDeleteClientModal.value = false;
+        toastr.success('Client sters cu succes!');
+    } catch (error) {
+        toastr.error('Eroare la stergere client!');
+    } finally {
+        isLoadingDelete.value = false;
+    }
 };
 
 const submitEditClientForm = async () => {
