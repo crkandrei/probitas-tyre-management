@@ -23,6 +23,6 @@ class History extends Model
 
     public function getActionDateAttribute($value)
     {
-        return date('d/m/Y h:m', strtotime($value));
+        return date('d/m/Y H:i', strtotime($value));
     }
 }

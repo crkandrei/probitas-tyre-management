@@ -38,7 +38,9 @@ class TyreStorageService
             $tyre->client->id,
             $tyre->id,$storage->row,
             $storage->column,
-            $storage->shelf)
+            $storage->shelf,
+            $storage->observations
+            )
         );
 
 
@@ -69,9 +71,10 @@ class TyreStorageService
         event(new TyreDeposited(
             $tyre->client->id,
             $tyre->id,
-            $existingStorage->row ?? $newStorage->row,
-            $existingStorage->column ?? $newStorage->column,
-            $existingStorage->shelf ?? $newStorage->shelf
+            $newStorage->row,
+            $newStorage->column,
+            $newStorage->shelf,
+            $newStorage->observations
             ));
     }
 
