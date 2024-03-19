@@ -9,7 +9,9 @@ class DashboardController extends Controller
 {
     public function getStats()
     {
-        $totalTyres = Tyre::count();
+        $totalTyres =  Tyre::whereHas('client', function ($query) {
+            $query->whereNull('deleted_at');
+        })->count();
         $totalClients = Client::count();
 
         return response()->json([
