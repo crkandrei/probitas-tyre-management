@@ -1,3 +1,10 @@
+<style>
+/* Add custom styles here to fine-tune the table's appearance. For example: */
+.table-sm th, .table-sm td {
+    padding: 0.25rem;
+    font-size: 0.9rem; /* Adjust font size as needed */
+}
+</style>
 <script setup>
 import AuthenticatedLayout from '@/Layouts/AuthenticatedLayout.vue';
 import { Head } from '@inertiajs/vue3';
@@ -308,20 +315,20 @@ const handlePageChange = (url) => {
                     <input type="text" v-model="search" @input="getTyres" placeholder="Search..." class="mb-4 p-2 border border-gray-300 rounded-md">
 
                     <div class="relative overflow-y-auto" style="height: 80vh;">
-                        <table class="min-w-full divide-y divide-gray-200">
-                        <thead class="bg-gray-50 sticky top-0">
-                        <tr>
-                            <th class="px-6 py-3 text-left text-xs font-medium text-gray-500 uppercase tracking-wider">Numar Masina</th>
-                            <th class="px-6 py-3 text-left text-xs font-medium text-gray-500 uppercase tracking-wider">Model</th>
-                            <th class="px-6 py-3 text-left text-xs font-medium text-gray-500 uppercase tracking-wider">Dimensiuni</th>
-                            <th class="px-6 py-3 text-left text-xs font-medium text-gray-500 uppercase tracking-wider">Observatii</th>
-                            <th class="px-6 py-3 text-left text-xs font-medium text-gray-500 uppercase tracking-wider">Cantitate</th>
-                            <th class="px-6 py-3 text-left text-xs font-medium text-gray-500 uppercase tracking-wider">Status</th>
-                            <th class="px-6 py-3 text-left text-xs font-medium text-gray-500 uppercase tracking-wider">Jante</th>
-                            <th class="px-6 py-3 text-left text-xs font-medium text-gray-500 uppercase tracking-wider">Depozit</th>
-                            <th class="px-6 py-3 text-left text-xs font-medium text-gray-500 uppercase tracking-wider">Actiune</th>
-                        </tr>
-                        </thead>
+                        <table class="min-w-full divide-y divide-gray-200 table-sm">
+                            <thead class="bg-gray-50 sticky top-0">
+                                <tr>
+                                    <th class="px-3 py-2">Nr. Mas.</th>
+                                    <th class="px-3 py-2">Model</th>
+                                    <th class="px-3 py-2">Dim.</th>
+                                    <th class="px-3 py-2">Obs.</th>
+                                    <th class="px-3 py-2">Cant.</th>
+                                    <th class="px-3 py-2">Status.</th>
+                                    <th class="px-3 py-2">Jante</th>
+                                    <th class="px-3 py-2">Depozit</th>
+                                    <th class="px-3 py-2">Actiune</th>
+                                </tr>
+                            </thead>
                         <tbody class="bg-white divide-y divide-gray-200">
                         <tr v-for="tyre in tyres.data" :key="tyre.id">
                             <td class="px-6 py-4 whitespace-nowrap">{{ tyre.car_number }}</td>
@@ -525,6 +532,10 @@ const handlePageChange = (url) => {
                                     <h3 class="text-lg leading-6 font-medium text-gray-900">Modifica date Anvelope</h3>
                                     <div class="mt-2">
                                         <!-- Add your form fields here -->
+                                        <div class="mb-4">
+                                            <label for="editRow" class="block text-sm font-medium text-gray-700">Numar Masina</label>
+                                            <input type="text" id="editRow" v-model="editTyreForm.car_number" class="mt-1 block w-full border-gray-300 rounded-md shadow-sm">
+                                        </div>
                                         <div class="mb-4">
                                             <label for="editRow" class="block text-sm font-medium text-gray-700">Model</label>
                                             <input type="text" id="editRow" v-model="editTyreForm.model" class="mt-1 block w-full border-gray-300 rounded-md shadow-sm">

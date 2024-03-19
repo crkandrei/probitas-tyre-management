@@ -10,21 +10,20 @@ class TyreRepository
 
     public function searchTyres($searchTerm)
     {
-        return Tyre::with(['client' => function($query) {
-            // Only include tyres where the client relationship exists and is not soft-deleted
-            $query->whereNull('deleted_at');
-        }, 'storage'])
+        return Tyre::with(['client','storage'])
             ->where(function($query) use ($searchTerm) {
                 $query->where('model', 'LIKE', "%{$searchTerm}%")
                     ->orWhere('size', 'LIKE', "%{$searchTerm}%")
-                    ->orWhere('status', 'LIKE', "%{$searchTerm}%");
+                    ->orWhere('status', 'LIKE', "%{$searchTerm}%")
+                    ->orWhereHas('client', function ($q) use ($searchTerm) {
+                        $q->where('name', 'LIKE', "%{$searchTerm}%")
+                            ->orWhere('telephone', 'LIKE', "%{$searchTerm}%")
+                            ->orWhere('car_number', 'LIKE', "%{$searchTerm}%");
+                    });
             })
-            ->whereHas('client', function($query) use ($searchTerm) {
-                // This ensures that we're only including tyres that have an active client
-                $query->where(function($q) use ($searchTerm) {
-                    $q->where('name', 'LIKE', "%{$searchTerm}%")
-                        ->orWhere('telephone', 'LIKE', "%{$searchTerm}%")
-                        ->orWhere('car_number', 'LIKE', "%{$searchTerm}%");
+            ->where(function($query) {
+                $query->whereHas('client', function($q) {
+                    $q->whereNull('deleted_at');
                 });
             })
             ->paginate(self::paginationLimit);

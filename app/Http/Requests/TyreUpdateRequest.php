@@ -4,6 +4,7 @@ namespace App\Http\Requests;
 
 
 use Illuminate\Foundation\Http\FormRequest;
+use Illuminate\Validation\Rule;
 
 
 class TyreUpdateRequest extends FormRequest
@@ -24,6 +25,12 @@ class TyreUpdateRequest extends FormRequest
     public function rules()
     {
         return [
+            'car_number' => [
+                'required',
+                'string',
+                'max:255',
+                Rule::unique('tyres')->ignore($this->request->get('id')),
+            ],
             'model' => 'required|string',
             'size' => 'required|string',
             'observations' => 'nullable|string',
@@ -35,6 +42,9 @@ class TyreUpdateRequest extends FormRequest
     public function messages()
     {
         return [
+            'car_number.required' => 'Numărul de înmatriculare este obligatoriu.',
+            'car_number.string' => 'Numărul de înmatriculare trebuie să fie un șir de caractere.',
+            'car_number.unique' => 'Numărul de înmatriculare există deja în baza de date.',
             'model.required' => 'Modelul este obligatoriu.',
             'model.string' => 'Modelul trebuie să fie un șir de caractere.',
             'size.required' => 'Dimensiunea este obligatorie.',
