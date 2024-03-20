@@ -2,6 +2,7 @@
 
 namespace App\Http\Requests;
 
+use App\Rules\UniqueCarNumberForActiveClients;
 use Illuminate\Foundation\Http\FormRequest;
 use Illuminate\Validation\Rule;
 
@@ -17,7 +18,12 @@ class TyreCheckInRequest extends FormRequest
     {
         return [
             'client_id' => 'required|int|max:255',
-            'car_number' => 'required|string|max:255| unique:tyres,car_number',
+            'car_number' => [
+                'required',
+                'string',
+                'max:255',
+                new UniqueCarNumberForActiveClients(),
+            ],
             'tyre_model' => 'required|string|max:255',
             'tyre_size' => 'required|string|max:255',
             'quantity' => 'required|integer|min:1',
