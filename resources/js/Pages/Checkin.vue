@@ -5,12 +5,23 @@ import toastr from 'toastr';
 import AuthenticatedLayout from '@/Layouts/AuthenticatedLayout.vue';
 import { Head } from '@inertiajs/vue3';
 import ClientAddModal from '../Forms/ClientAddModal.vue';
+import { usePage } from '@inertiajs/inertia-vue3';
 
 const loading = reactive({ status: false });
 const inputFocused = ref(false);
 const isAddClientModalVisible = ref(false);
 const clients = ref([]);
 const searchQuery = ref(''); // Add this line
+
+const clientId = ref('');
+const carNumber = ref('');
+function getQueryParams() {
+    const queryParams = new URLSearchParams(window.location.search);
+    clientId.value = queryParams.get('client_id');
+    carNumber.value = queryParams.get('car_number');
+    console.log(clientId.value, carNumber.value);
+}
+
 const form = reactive({
     client_id: '',
     car_number: '',
@@ -20,6 +31,7 @@ const form = reactive({
     has_rim: false,
     observations: '',
 });
+
 const dropdownVisible = ref(false);
 
 // Compute filteredClients based on searchQuery
@@ -38,6 +50,9 @@ const onInputFocus = () => {
 };
 
 onMounted(() => {
+    getQueryParams();
+    form.client_id = clientId.value;
+    form.car_number = carNumber.value;
     fetchClients();
     document.addEventListener('click', handleClickOutside);
     document.addEventListener('keydown', handleEscape);
@@ -57,6 +72,14 @@ const fetchClients = async () => {
     try {
         const response = await axios.get('/clients/list');
         clients.value = response.data;
+
+        // After clients are fetched, auto-select the client based on client_id
+        const selectedClient = clients.value.find(c => c.id.toString() === clientId.value);
+        if (selectedClient) {
+            searchQuery.value = selectedClient.name;
+            // Directly select the client in the form as well
+            form.client_id = selectedClient.id;
+        }
     } catch (error) {
         toastr.error("Clientii nu au putut fi adusi din baza de date.");
     }
@@ -158,7 +181,7 @@ async function submit() {
                     </div>
 
                     <div class="mb-4">
-                        <button type="button" @click="showAddClientModal" class="px-4 py-2 bg-blue-500 text-white rounded-md hover:bg-blue-600">Add New Client</button>
+                        <button type="button" @click="showAddClientModal" class="px-4 py-2 bg-blue-500 text-white rounded-md hover:bg-blue-600">Adauga Client Nou</button>
                     </div>
                 <div class="mb-4">
                     <label for="car_number" class="block text-sm font-medium text-gray-700">Numar Masina*</label>

@@ -6,6 +6,7 @@ use App\Http\Controllers\ProfileController;
 use App\Http\Controllers\StorageController;
 use App\Http\Controllers\TyreController;
 use Illuminate\Foundation\Application;
+use Illuminate\Http\Request;
 use Illuminate\Support\Facades\Route;
 use Inertia\Inertia;
 
@@ -97,9 +98,13 @@ Route::put('/tyres/{tyre}', [TyreController::class, 'update'])
     ->name('tyres.update');
 
 // Check-in Route
-Route::get('/checkin', function () {
-    return Inertia::render('Checkin');
+Route::get('/checkin', function (Request $request) {
+    return Inertia::render('Checkin', [
+        'client_id' => $request->input('client_id', ''),
+        'car_number' => $request->input('car_number', ''),
+    ]);
 })->middleware(['auth', 'verified'])->name('checkin');
+
 
 // Profile Routes
 Route::middleware('auth')->group(function () {

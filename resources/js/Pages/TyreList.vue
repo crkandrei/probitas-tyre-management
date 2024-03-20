@@ -11,6 +11,7 @@ import { Head } from '@inertiajs/vue3';
 import { ref, onMounted, reactive } from 'vue';
 import axios from 'axios';
 import toastr from "toastr";
+import { Inertia } from '@inertiajs/inertia';
 
 const tyres = ref({ data: [], next_page_url:[], prev_page_url:[]});
 const search = ref('');
@@ -299,7 +300,6 @@ const handlePageChange = (url) => {
     getTyres(url);
 };
 
-
 </script>
 
 <template>
@@ -379,6 +379,14 @@ const handlePageChange = (url) => {
                                 >
                                     Modifica
                                 </button>
+
+                                <a
+                                    v-if="tyre.status === 'Predate la Client'"
+                                    :href="route('checkin', { car_number: tyre.car_number, client_id: tyre.client_id })"
+                                    class="text-white bg-green-500 hover:bg-green-600 focus:ring-4 focus:ring-green-300 font-medium rounded-lg text-sm px-5 py-2.5 mr-2 mb-2 dark:bg-green-600 dark:hover:bg-green-700 focus:outline-none dark:focus:ring-green-800"
+                                >
+                                    Check In
+                                </a>
 
                                 <button
                                     @click="generateCheckinDocument(tyre.id)"
