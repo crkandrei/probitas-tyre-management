@@ -28,8 +28,7 @@ class TyreUpdateRequest extends FormRequest
             'car_number' => [
                 'required',
                 'string',
-                'max:255',
-                Rule::unique('tyres')->ignore($this->request->get('id')),
+                'max:255'
             ],
             'model' => 'required|string',
             'size' => 'required|string',
@@ -44,7 +43,6 @@ class TyreUpdateRequest extends FormRequest
         return [
             'car_number.required' => 'Numărul de înmatriculare este obligatoriu.',
             'car_number.string' => 'Numărul de înmatriculare trebuie să fie un șir de caractere.',
-            'car_number.unique' => 'Numărul de înmatriculare există deja în baza de date.',
             'model.required' => 'Modelul este obligatoriu.',
             'model.string' => 'Modelul trebuie să fie un șir de caractere.',
             'size.required' => 'Dimensiunea este obligatorie.',

@@ -21,8 +21,7 @@ class TyreCheckInRequest extends FormRequest
             'car_number' => [
                 'required',
                 'string',
-                'max:255',
-                new UniqueCarNumberForActiveClients(),
+                'max:255'
             ],
             'tyre_model' => 'required|string|max:255',
             'tyre_size' => 'required|string|max:255',
