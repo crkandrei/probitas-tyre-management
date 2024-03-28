@@ -38,6 +38,8 @@ Route::group(['middleware' => ['auth', 'verified']], function () {
         $clients = Client::all();
         return Inertia::render('TyreList', ['clients' => $clients]);
     })->name('tyre-list');
+
+    Route::get('/tyre-age-stats', [TyreController::class, 'getTyreAgeStats']);
 });
 
 Route::get('/tyre/generate-checkout-document/{tyre}', [TyreController::class, 'generateCheckoutDocument'])

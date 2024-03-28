@@ -5,9 +5,10 @@ namespace App\Http\Controllers;
 use App\Exports\TyreDataExport;
 use App\Http\Requests\TyreCheckInRequest;
 use App\Http\Requests\TyreUpdateRequest;
+use App\Http\Services\ClientTyreService;
+use App\Http\Services\TyreService;
 use App\Models\Tyre;
 use App\Repositories\TyreRepository;
-use App\Services\ClientTyreService;
 use Barryvdh\DomPDF\Facade\Pdf;
 use Illuminate\Http\JsonResponse;
 use Illuminate\Http\Request;
@@ -22,10 +23,16 @@ class TyreController extends Controller
     protected ClientTyreService $clientTyreService;
     protected TyreRepository $tyreRepository;
 
-    public function __construct(ClientTyreService $clientTyreService, TyreRepository $tyreRepository)
-    {
+    protected TyreService $tyreService;
+
+    public function __construct(
+        ClientTyreService $clientTyreService,
+        TyreRepository $tyreRepository,
+        TyreService $tyreService
+    ) {
         $this->clientTyreService = $clientTyreService;
         $this->tyreRepository = $tyreRepository;
+        $this->tyreService = $tyreService;
     }
 
     public function checkIn(TyreCheckinRequest $request): JsonResponse
@@ -78,6 +85,11 @@ class TyreController extends Controller
             Log::error('Error in update: ' . $e->getMessage(), ['exception' => $e]);
             return response()->json(['message' => 'Eroare modificare date'], 500);
         }
+    }
+    public function getTyreAgeStats(Request $request): JsonResponse
+    {
+        $stats = $this->tyreService->getTyreAgeStats();
+        return response()->json($stats);
     }
 
     public function export(Request $request): BinaryFileResponse

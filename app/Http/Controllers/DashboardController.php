@@ -4,14 +4,17 @@ namespace App\Http\Controllers;
 
 use App\Models\Client;
 use App\Models\Tyre;
+use Illuminate\Http\JsonResponse;
+
 
 class DashboardController extends Controller
 {
-    public function getStats()
+    public function getStats(): JsonResponse
     {
         $totalTyres =  Tyre::whereHas('client', function ($query) {
             $query->whereNull('deleted_at');
-        })->count();
+        })->where('status', '!=', 2)->count();
+
         $totalClients = Client::count();
 
         return response()->json([

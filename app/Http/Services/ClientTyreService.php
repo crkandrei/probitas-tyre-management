@@ -1,10 +1,11 @@
 <?php
-namespace App\Services;
+namespace App\Http\Services;
 
 use App\Events\TyreCheckedIn;
 use App\Models\Client;
 use App\Models\Tyre;
 use Illuminate\Support\Facades\DB;
+
 
 class ClientTyreService
 {

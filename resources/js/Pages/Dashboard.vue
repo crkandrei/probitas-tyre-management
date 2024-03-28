@@ -1,11 +1,15 @@
 <script setup>
-import { ref, onMounted } from 'vue';
+import {ref, onMounted, nextTick} from 'vue';
 import axios from 'axios';
 import AuthenticatedLayout from '@/Layouts/AuthenticatedLayout.vue';
 import { Head } from '@inertiajs/vue3';
+import Chart from 'chart.js/auto';
 
 const totalTyres = ref(0);
 const totalClients = ref(0);
+
+const tyreAgeData = ref({ ages: [], counts: [] });
+const chartRef = ref(null);
 
 onMounted(async () => {
     try {
@@ -13,10 +17,54 @@ onMounted(async () => {
         totalTyres.value = response.data.totalTyres;
         totalClients.value = response.data.totalClients;
 
+        const tyreAgeResponse = await axios.get('/tyre-age-stats');
+        tyreAgeData.value = tyreAgeResponse.data.original;
+        // Wait for next tick to ensure the canvas element is rendered
+        await nextTick();
+        setupChart();
+
     } catch (error) {
         console.error('Error fetching dashboard stats:', error);
     }
 });
+const setupChart = () => {
+    console.table(tyreAgeData.value.counts);
+    const ctx = chartRef.value.getContext('2d');
+    const chart = new Chart(ctx, {
+        type: 'bar', // You can choose another type
+        data: {
+            labels: tyreAgeData.value.ages,
+            datasets: [{
+                label: 'Vechimea Anvelopelor in Depozit',
+                data: tyreAgeData.value.counts,
+                backgroundColor: [
+                    'rgba(255, 99, 132, 0.2)',
+                    'rgba(54, 162, 235, 0.2)',
+                    'rgba(255, 206, 86, 0.2)',
+                    'rgba(75, 192, 192, 0.2)'
+                ],
+                borderColor: [
+                    'rgba(255, 99, 132, 1)',
+                    'rgba(54, 162, 235, 1)',
+                    'rgba(255, 206, 86, 1)',
+                    'rgba(75, 192, 192, 1)'
+                ],
+                borderWidth: 1
+            }]
+        },
+        options: {
+            scales: {
+                y: {
+                    beginAtZero: true,
+                    ticks : {
+                        stepSize: 1
+                    }
+                }
+            }
+        }
+    });
+};
+
 </script>
 
 <template>
@@ -55,7 +103,7 @@ onMounted(async () => {
                             </div>
                             <div class="ml-5 w-0 flex-1">
                                 <dl>
-                                    <dt class="text-sm font-medium text-gray-500 truncate mb-5">Total Anvelope :</dt>
+                                    <dt class="text-sm font-medium text-gray-500 truncate mb-5">Total Anvelope In Depozit :</dt>
                                     <dd>
                                         <div class="text-lg font-medium text-gray-900">{{ totalTyres }}</div>
                                     </dd>
@@ -86,6 +134,14 @@ onMounted(async () => {
                 </div>
 
                 <!-- More cards can be added here -->
+            </div>
+
+            <div class="max-w-7xl mx-auto sm:px-6 lg:px-8 grid grid-cols-1 md:grid-cols-1 mt-4">
+                <div class="bg-white overflow-hidden shadow rounded-lg">
+                    <div class="p-5">
+                        <canvas ref="chartRef"></canvas>
+                    </div>
+                </div>
             </div>
         </div>
     </AuthenticatedLayout>
