@@ -40,7 +40,7 @@ class ClientController extends Controller
         $history = $client->history()->with(['client', 'tyre'])->get();
 
         $grouped = $history->groupBy(function ($item) {
-            return $item->tyre->car_number; // Group by tyre name
+            return $item->tyre->id; // Group by tyre name
         });
 
         $sortedGrouped = $grouped->map(function ($group) {

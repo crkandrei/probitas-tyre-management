@@ -27,6 +27,7 @@ class ClientTyreService
                 'status' => 0,
                 'hasRim' => $data['has_rim'],
                 'observations' => $data['observations'],
+                'checkin_date' => $data['checkin_date'] ?? now()
             ]);
 
             $client->tyres()->save($tyre);

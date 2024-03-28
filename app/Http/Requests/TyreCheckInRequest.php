@@ -28,6 +28,7 @@ class TyreCheckInRequest extends FormRequest
             'quantity' => 'required|integer|min:1',
             'has_rim' => 'required|boolean',
             'observations' => 'nullable|string',
+            'checkin_date' => 'nullable|date',
         ];
     }
 
@@ -52,6 +53,7 @@ class TyreCheckInRequest extends FormRequest
             'has_rim.required' => 'Prezența jantei este obligatorie.',
             'has_rim.boolean' => 'Prezența jantei trebuie să fie adevărată sau falsă.',
             'observations.string' => 'Observațiile trebuie să fie un șir de caractere.',
+            'checkin_date.date' => 'Data de check-in trebuie să fie o dată.',
         ];
     }
 }

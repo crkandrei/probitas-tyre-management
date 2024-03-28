@@ -11,7 +11,8 @@ class TyreCheckedIn implements TyreEvent
 
     private int $clientId;
     private int $tyreId;
-    private string $action = 'A facut check In';
+
+    public const ACTION = 'A facut check In';
 
     public function __construct($clientId, $tyreId)
     {
@@ -31,6 +32,6 @@ class TyreCheckedIn implements TyreEvent
 
     public function getAction()
     {
-        return $this->action;
+        return self::ACTION;
     }
 }
