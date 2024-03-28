@@ -34,6 +34,7 @@ class TyreUpdateRequest extends FormRequest
             'observations' => 'nullable|string',
             'quantity' => 'required|int',
             'hasRim' => 'required|boolean',
+            'checkin_date' => 'required|date'
         ];
     }
 

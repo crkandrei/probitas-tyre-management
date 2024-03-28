@@ -4,11 +4,17 @@
     padding: 0.25rem;
     font-size: 0.9rem; /* Adjust font size as needed */
 }
+
+.table-sm tfoot {
+    position: sticky;
+    bottom: 0;
+    background: white;
+}
 </style>
 <script setup>
 import AuthenticatedLayout from '@/Layouts/AuthenticatedLayout.vue';
-import { Head } from '@inertiajs/vue3';
-import { ref, onMounted, reactive } from 'vue';
+import {Head} from '@inertiajs/vue3';
+import {onMounted, reactive, ref} from 'vue';
 import axios from 'axios';
 import toastr from "toastr";
 
@@ -42,7 +48,8 @@ const editTyreForm = reactive({
     observations: '',
     quantity: '',
     status: '',
-    hasRim: false
+    hasRim: false,
+    checkin_date: ''
 });
 
 const openEditModal = (tyre) => {
@@ -55,6 +62,7 @@ const openEditModal = (tyre) => {
     editTyreForm.quantity = tyre.quantity;
     editTyreForm.status = tyre.status;
     editTyreForm.hasRim = Boolean(tyre.hasRim);
+    editTyreForm.checkin_date = tyre.checkin_date;
     showEditTyreModal.value = true;
 };
 
@@ -574,6 +582,10 @@ const handlePageChange = (url) => {
                                                 <input type="checkbox" id="has_rim" v-model="editTyreForm.hasRim" class="mr-2">
                                                 <span class="text-sm font-medium text-gray-700">Cu Janta?</span>
                                             </label>
+                                        </div>
+                                        <div class="mb-4">
+                                            <label for="editCheckinDate" class="block text-sm font-medium text-gray-700">Data Checkin</label>
+                                            <input type="date" id="editCheckinDate" v-model="editTyreForm.checkin_date" class="mt-1 block w-full border-gray-300 rounded-md shadow-sm">
                                         </div>
                                     </div>
                                 </div>

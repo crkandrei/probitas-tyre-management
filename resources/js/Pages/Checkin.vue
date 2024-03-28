@@ -29,6 +29,7 @@ const form = reactive({
     quantity: 1,
     has_rim: false,
     observations: '',
+    checkin_date: new Date().toISOString().substring(0, 10),
 });
 
 const dropdownVisible = ref(false);
@@ -213,7 +214,10 @@ async function submit() {
                     <label for="observations" class="block text-sm font-medium text-gray-700">Observatii</label>
                     <textarea id="observations" v-model="form.observations" class="mt-1 block w-full border-gray-300 rounded-md shadow-sm"></textarea>
                 </div>
-
+                <div class="mb-4">
+                    <label for="checkin_date" class="block text-sm font-medium text-gray-700">Data CheckIn</label>
+                    <input type="date" id="checkin_date" v-model="form.checkin_date" class="mt-1 block w-full border-gray-300 rounded-md shadow-sm" required>
+                </div>
                 <div class="flex justify-end">
                     <button
                         type="submit"

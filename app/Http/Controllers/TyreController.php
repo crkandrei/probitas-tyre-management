@@ -79,7 +79,8 @@ class TyreController extends Controller
     {
         $validated = $request->validated();
         try {
-            $tyre->update($validated);
+            $this->tyreService->update($tyre, $validated);
+
             return response()->json(['message' => 'Date modificare cu succes']);
         } catch (\Exception $e) {
             Log::error('Error in update: ' . $e->getMessage(), ['exception' => $e]);

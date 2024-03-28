@@ -1,3 +1,14 @@
+<style>
+.table-fixed {
+    table-layout: fixed;
+    width: 100%;
+}
+
+.table-fixed th, .table-fixed td {
+    width: 25%; /* Adjust the width as needed */
+}
+</style>
+
 <template>
     <AuthenticatedLayout>
         <Head title="Lista Clienți" />
@@ -28,7 +39,7 @@
                             <!-- Define data cells -->
                             <td class="px-6 py-4 whitespace-nowrap">{{ client.name }}</td>
                             <td class="px-6 py-4 whitespace-nowrap">{{ client.telephone }}</td>
-                            <td class="px-6 py-4 whitespace-nowrap">{{ client.tyres.map(tyre => tyre.car_number).join(', ') }}</td>
+                            <td class="px-6 py-4 whitespace-nowrap">{{ Array.from(new Set(client.tyres.map(tyre => tyre.car_number))).join(', ') }}</td>
                             <td class="px-6 py-4 whitespace-nowrap text-right text-sm font-medium">
                                 <button
                                     @click="openEditClientModal(client)"
@@ -122,22 +133,22 @@
                         <!-- History Table -->
                         <div class="bg-white px-4 pt-5 pb-4 sm:p-6 sm:pb-4 w-100">
                             <h3 class="text-lg leading-6 font-medium text-gray-900 w-100">Client History</h3>
-                            <div class="mt-2" v-for="(group, tyreCarNumber) in clientHistory" :key="tyreCarNumber">
-                                <table class="min-w-full divide-y divide-gray-200 mt-2">
+                            <div class="mt-2" v-for="(group, tyreId) in clientHistory" :key="tyreId">
+                                <table class="min-w-full divide-y divide-gray-200 mt-2 table-fixed">
                                     <thead class="bg-gray-50">
                                     <tr>
                                         <th class="px-6 py-3 text-left text-xs font-medium text-gray-500 uppercase tracking-wider">Numar Masina</th>
+                                        <th class="px-6 py-3 text-left text-xs font-medium text-gray-500 uppercase tracking-wider">Anvelope</th>
                                         <th class="px-6 py-3 text-left text-xs font-medium text-gray-500 uppercase tracking-wider">Actiune</th>
                                         <th class="px-6 py-3 text-left text-xs font-medium text-gray-500 uppercase tracking-wider">In data de</th>
-                                        <!-- Add other headers like action details, etc. -->
                                     </tr>
                                     </thead>
                                     <tbody class="bg-white divide-y divide-gray-200">
                                     <tr v-for="historyItem in group" :key="historyItem.id">
                                         <td class="px-6 py-4 whitespace-nowrap">{{ historyItem.tyre.car_number }}</td>
+                                        <td class="px-6 py-4 whitespace-nowrap">{{ historyItem.tyre.model+'('+historyItem.tyre.size+')' }}</td>
                                         <td class="px-6 py-4 whitespace-nowrap">{{ historyItem.action }}</td>
                                         <td class="px-6 py-4 whitespace-nowrap">{{ historyItem.action_date }}</td>
-                                        <!-- Add other data cells as needed -->
                                     </tr>
                                     </tbody>
                                 </table>
