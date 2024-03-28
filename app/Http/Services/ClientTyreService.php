@@ -34,7 +34,7 @@ class ClientTyreService
         });
 
         if ($client && $tyre) {
-            event(new TyreCheckedIn($client->id, $tyre->id));
+            event(new TyreCheckedIn($client->id, $tyre->id, $tyre->checkin_date));
         }
 
         return $client;

@@ -71,7 +71,13 @@ class TyreService
 
                 // Update the corresponding history record for check-in action.
                 $this->updateCheckInDateHistory($tyre->id, $newCheckinDate);
-            } else {
+            } elseif (isset($validated['client_id']) && $tyre->client_id != $validated['client_id']) {
+                // If 'client_id' has changed, update the tyre and create a new history record for check-in action.
+                $tyre->update($validated);
+
+                $this->updateClientHistory($tyre->id, $validated['client_id']);
+            }
+            else {
                 // If 'checkin_date' hasn't changed or isn't provided, just update the tyre without touching the history.
                 $tyre->update($validated);
             }
@@ -89,5 +95,11 @@ class TyreService
             $history->action_date = $newCheckInDate;
             $history->save();
         }
+    }
+
+    private function updateClientHistory(mixed $id, mixed $client_id)
+    {
+        $history = History::where('tyre_id', $id);
+        $history->update(['client_id' => $client_id]);
     }
 }
