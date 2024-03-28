@@ -5,6 +5,7 @@ use App\Http\Controllers\DashboardController;
 use App\Http\Controllers\ProfileController;
 use App\Http\Controllers\StorageController;
 use App\Http\Controllers\TyreController;
+use App\Models\Client;
 use Illuminate\Foundation\Application;
 use Illuminate\Http\Request;
 use Illuminate\Support\Facades\Route;
@@ -34,7 +35,8 @@ Route::group(['middleware' => ['auth', 'verified']], function () {
     Route::get('/tyres', [TyreController::class, 'index'])->name('tyres.index');
     Route::post('/tyres/check-in', [TyreController::class, 'checkIn'])->name('tyres.check-in');
     Route::get('/tyre-list', function () {
-        return Inertia::render('TyreList');
+        $clients = Client::all();
+        return Inertia::render('TyreList', ['clients' => $clients]);
     })->name('tyre-list');
 });
 

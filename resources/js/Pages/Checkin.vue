@@ -5,7 +5,6 @@ import toastr from 'toastr';
 import AuthenticatedLayout from '@/Layouts/AuthenticatedLayout.vue';
 import { Head } from '@inertiajs/vue3';
 import ClientAddModal from '../Forms/ClientAddModal.vue';
-import { usePage } from '@inertiajs/inertia-vue3';
 
 const loading = reactive({ status: false });
 const inputFocused = ref(false);

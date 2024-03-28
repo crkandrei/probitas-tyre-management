@@ -4,8 +4,6 @@ namespace App\Http\Requests;
 
 
 use Illuminate\Foundation\Http\FormRequest;
-use Illuminate\Validation\Rule;
-
 
 class TyreUpdateRequest extends FormRequest
 {
@@ -20,11 +18,12 @@ class TyreUpdateRequest extends FormRequest
     /**
      * Get the validation rules that apply to the request.
      *
-     * @return array<string, \Illuminate\Contracts\Validation\ValidationRule|array<mixed>|string>
+     * @return array<string, \Illuminate\Contracts\Validation\ValidationRule|array|string>
      */
-    public function rules()
+    public function rules(): array
     {
         return [
+            'client_id' => 'required|int',
             'car_number' => [
                 'required',
                 'string',
@@ -38,9 +37,10 @@ class TyreUpdateRequest extends FormRequest
         ];
     }
 
-    public function messages()
+    public function messages(): array
     {
         return [
+            'client_id.required' => 'Trebuie sa selectati un client oblogatoriu.',
             'car_number.required' => 'Numărul de înmatriculare este obligatoriu.',
             'car_number.string' => 'Numărul de înmatriculare trebuie să fie un șir de caractere.',
             'model.required' => 'Modelul este obligatoriu.',

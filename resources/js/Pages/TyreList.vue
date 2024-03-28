@@ -11,7 +11,8 @@ import { Head } from '@inertiajs/vue3';
 import { ref, onMounted, reactive } from 'vue';
 import axios from 'axios';
 import toastr from "toastr";
-import { Inertia } from '@inertiajs/inertia';
+
+defineProps(['clients']);
 
 const tyres = ref({ data: [], next_page_url:[], prev_page_url:[]});
 const search = ref('');
@@ -34,6 +35,7 @@ const editForm = reactive({
 
 const editTyreForm = reactive({
     id: 1,
+    client_id: '',
     car_number: '',
     model: '',
     size: '',
@@ -45,6 +47,7 @@ const editTyreForm = reactive({
 
 const openEditModal = (tyre) => {
     editTyreForm.id = tyre.id;
+    editTyreForm.client_id  = tyre.client_id;
     editTyreForm.car_number = tyre.car_number;
     editTyreForm.model = tyre.model;
     editTyreForm.size = tyre.size;
@@ -59,7 +62,7 @@ const selectedStorageForEdit = ref(null);
 
 const getTyres = async (pageOrUrl) => {
     try {
-        let url = '';
+        let url;
 
         if (typeof pageOrUrl === 'string') {
             url = pageOrUrl;
@@ -160,7 +163,7 @@ const generateCheckoutDocument = async (tyreId) => {
     }
 }
 
-const submitStorageForm = async (tyreId) => {
+const submitStorageForm = async () => {
     isLoading.value = true;
     try {
         const response = await axios.post('/tyre-storage-link', { ...storageForm });
@@ -539,7 +542,13 @@ const handlePageChange = (url) => {
                                 <div class="mt-3 text-center sm:mt-0 sm:ml-4 sm:text-left">
                                     <h3 class="text-lg leading-6 font-medium text-gray-900">Modifica date Anvelope</h3>
                                     <div class="mt-2">
-                                        <!-- Add your form fields here -->
+                                        <div class="mb-4">
+                                            <label for="clientSelect" class="block text-sm font-medium text-gray-700">Client</label>
+                                            <select id="clientSelect" v-model="editTyreForm.client_id" class="mt-1 block w-full border-gray-300 rounded-md shadow-sm">
+                                                <option v-for="client in clients" :key="client.id" :value="client.id">{{ client.name }}</option>
+                                            </select>
+                                        </div>
+
                                         <div class="mb-4">
                                             <label for="editRow" class="block text-sm font-medium text-gray-700">Numar Masina</label>
                                             <input type="text" id="editRow" v-model="editTyreForm.car_number" class="mt-1 block w-full border-gray-300 rounded-md shadow-sm">

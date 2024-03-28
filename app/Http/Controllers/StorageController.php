@@ -7,6 +7,7 @@ use App\Http\Requests\TyreStorageRequest;
 use App\Http\Requests\UpdateTyreStorageRequest;
 use App\Http\Services\TyreStorageService;
 use App\Models\Storage;
+use Illuminate\Http\JsonResponse;
 
 
 class StorageController extends Controller
@@ -18,7 +19,7 @@ class StorageController extends Controller
         $this->tyreStorageService = $tyreStorageService;
     }
 
-    public function store(TyreStorageRequest $request)
+    public function store(TyreStorageRequest $request): JsonResponse
     {
         $validated = $request->validated();
         try{
@@ -37,19 +38,12 @@ class StorageController extends Controller
         ]);
     }
 
-    public function updateStorage(UpdateTyreStorageRequest $request, $storageId)
+    public function updateStorage(UpdateTyreStorageRequest $request, $storageId): JsonResponse
     {
         // Validate the request data
         $validated = $request->validated();
 
-        try{
-           $this->tyreStorageService->updateStorage($validated, $storageId);
-
-        } catch (StorageLocationAlreadyAssignedException $e) {
-            return response()->json([
-                'message' => $e->getMessage(),
-            ], 400);
-        }
+        $this->tyreStorageService->updateStorage($validated, $storageId);
 
         // Return a success response
         return response()->json([
